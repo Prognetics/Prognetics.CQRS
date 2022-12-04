@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Prognetics.CQRS</AssemblyName>
+    <RootNamespace>Prognetics.CQRS</RootNamespace>
+    <Version>1.0.0</Version>
+    <Company>Prognetics sp. z o.o.</Company>
+    <Description>Prognetics CQRS comapny implementation package</Description>
+    <Copyright>Prognetics sp. z o.o.</Copyright>
+    <PackageReleaseNotes />
+    <Authors>Prognetics sp. z o.o.</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="nuget.exe" />
+  </ItemGroup>
+
+</Project>
