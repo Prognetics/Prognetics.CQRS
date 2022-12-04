@@ -1,8 +1,6 @@
-﻿using Prognetics.CQRS.Markers;
-
-namespace Prognetics.CQRS.Tests.Shared.GenericQuery
+﻿namespace Prognetics.CQRS.Tests.Shared.GenericQuery
 {
-    public class SampleGenericQuery<T> : IGenericQuery<int, T>
+    public class SampleGenericQuery<T> : IQuery<int>
     {
         public SampleGenericQuery(T data)
         {

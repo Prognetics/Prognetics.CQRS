@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Prognetics.CQRS.Mediator;
 using Prognetics.CQRS.Tests.Shared.Modules;
 using Xunit;
 
@@ -22,7 +21,7 @@ namespace Prognetics.CQRS.Tests.Integration.Query
             {
                 var mediator = scope.Resolve<IMediator>();
 
-                var result = mediator.Fetch(new SumQuery(2));
+                var result = mediator.Fetch<SumQuery, int>(new SumQuery(2));
 
                 result.Should().Be(5);
             }
@@ -36,7 +35,7 @@ namespace Prognetics.CQRS.Tests.Integration.Query
                 var mediator = scope.Resolve<IMediator>();
 
                 var query = new SumQuery(2);
-                var result = mediator.FetchFast<SumQuery, int>(query);
+                var result = mediator.Fetch<SumQuery, int>(query);
 
                 result.Should().Be(5);
             }

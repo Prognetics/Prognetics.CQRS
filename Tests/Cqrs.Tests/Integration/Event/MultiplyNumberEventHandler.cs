@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
-using Prognetics.CQRS.Handlers;
 
 namespace Prognetics.CQRS.Tests.Integration.Event
 {
-    public class MultiplyNumberEventHandler : EventHandlerAsync<NumberEvent>
+    public class MultiplyNumberEventHandler : IEventHandler<NumberEvent>
     {
 #pragma warning disable 1998
-        public override async Task HandleAsync(NumberEvent @event)
+        public Task Handle(NumberEvent @event)
 #pragma warning restore 1998
         {
             var result = @event.Number * 2;
+            return Task.CompletedTask;
         }
     }
 }

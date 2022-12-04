@@ -1,6 +1,4 @@
-﻿using Prognetics.CQRS.Markers;
-
-namespace Prognetics.CQRS.Tests.Integration.Query
+﻿namespace Prognetics.CQRS.Tests.Integration.Query
 {
     public class SumQuery : IQuery<int>
     {

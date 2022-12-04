@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
 using Prognetics.CQRS.Tests.Shared.Modules;
-using Prognetics.CQRS.Mediator;
 using Xunit;
 
 namespace Prognetics.CQRS.Tests.Integration.Command
@@ -22,7 +21,7 @@ namespace Prognetics.CQRS.Tests.Integration.Command
             {
                 var mediator = scope.Resolve<IMediator>();
 
-                await mediator.SendAsync(new SumCommand(2));
+                await mediator.Send(new SumCommand(2));
             }
         }
 

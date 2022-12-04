@@ -1,8 +1,6 @@
-﻿using Prognetics.CQRS.Markers;
-
-namespace Prognetics.CQRS.Tests.Integration.Command
+﻿namespace Prognetics.CQRS.Tests.Integration.Command
 {
-    public class SumCommand : ICommandAsync
+    public class SumCommand : ICommand
     {
         public SumCommand(int number)
         {

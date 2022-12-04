@@ -1,12 +1,12 @@
-﻿using Prognetics.CQRS.Handlers;
+﻿using System.Threading.Tasks;
 
 namespace Prognetics.CQRS.Tests.Integration.Query
 {
     public class SumQueryHandler : IQueryHandler<SumQuery, int>
     {
-        public int Handle(SumQuery query)
+        public Task<int> Handle(SumQuery query)
         {
-            return query.Number + 3;
+            return Task.FromResult(query.Number + 3);
         }
     }
 }

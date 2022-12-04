@@ -1,8 +1,6 @@
-﻿using Prognetics.CQRS.Markers;
-
-namespace Prognetics.CQRS.Tests.Integration.QueryAsync
+﻿namespace Prognetics.CQRS.Tests.Integration.QueryAsync
 {
-    public class SumQueryAsync : IQueryAsync<int>
+    public class SumQueryAsync : IQuery<int>
     {
         public SumQueryAsync(int number)
         {

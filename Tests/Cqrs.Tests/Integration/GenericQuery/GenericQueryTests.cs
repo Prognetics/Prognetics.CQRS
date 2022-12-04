@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Prognetics.CQRS.Mediator;
 using Prognetics.CQRS.Tests.Shared.GenericQuery;
 using Prognetics.CQRS.Tests.Shared.Modules;
 using Xunit;
@@ -24,7 +23,7 @@ namespace Prognetics.CQRS.Tests.Integration.GenericQuery
                 var mediator = scope.Resolve<IMediator>();
                 var query = new SampleGenericQuery<int>(2);
 
-                var result = mediator.FetchGeneric<SampleGenericQuery<int>, int, int>(query);
+                var result = mediator.Fetch<SampleGenericQuery<int>, int>(query);
 
                 result.Should().Be(5);
             }
@@ -38,10 +37,10 @@ namespace Prognetics.CQRS.Tests.Integration.GenericQuery
                 var mediator = scope.Resolve<IMediator>();
 
                 var queryOne = new SampleGenericQuery<int>(2);
-                var resultOne = mediator.FetchGeneric<SampleGenericQuery<int>, int, int>(queryOne);
+                var resultOne = mediator.Fetch<SampleGenericQuery<int>, int>(queryOne);
 
                 var queryTwo = new SampleGenericQuery<string>("7");
-                var resultTwo = mediator.FetchGeneric<SampleGenericQuery<string>, int, string>(queryTwo);
+                var resultTwo = mediator.Fetch<SampleGenericQuery<string>, int>(queryTwo);
 
                 resultOne.Should().Be(5);
                 resultTwo.Should().Be(10);

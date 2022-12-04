@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Prognetics.CQRS.Mediator;
 using Prognetics.CQRS.Tests.Shared.Modules;
 using Xunit;
 
@@ -18,12 +17,10 @@ namespace Prognetics.CQRS.Tests.Integration.Event
         [Fact]
         public async Task FireEvent()
         {
-            using (var scope = _container.BeginLifetimeScope())
-            {
-                var mediator = scope.Resolve<IMediator>();
+            using var scope = _container.BeginLifetimeScope();
+            var mediator = scope.Resolve<IMediator>();
 
-                await mediator.PublishAsync(new NumberEvent(2));
-            }
+            await mediator.Publish(new NumberEvent(2));
         }
 
         private IContainer BuildContainer()
