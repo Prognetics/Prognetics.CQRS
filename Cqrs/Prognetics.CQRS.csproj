@@ -10,10 +10,30 @@
     <Copyright>Prognetics sp. z o.o.</Copyright>
     <PackageReleaseNotes />
     <Authors>Prognetics sp. z o.o.</Authors>
+    <Title>Prognetics.CQRS</Title>
+    <PackageProjectUrl>https://github.com/ChrisGawlinski/Prognetics.CQRS</PackageProjectUrl>
+    <PackageIcon></PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/ChrisGawlinski/Prognetics.CQRS</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>cqrs; prognetics;</PackageTags>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="nuget.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
