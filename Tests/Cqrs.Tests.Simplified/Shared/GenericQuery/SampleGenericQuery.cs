@@ -1,4 +1,6 @@
-﻿namespace Prognetics.CQRS.Simplified.Tests.Shared.GenericQuery
+﻿using Prognetics.CQRS.Simplified;
+
+namespace Prognetics.CQRS.Tests.Simplified.Shared.GenericQuery
 {
     public class SampleGenericQuery<T> : IQuery<int>
     {

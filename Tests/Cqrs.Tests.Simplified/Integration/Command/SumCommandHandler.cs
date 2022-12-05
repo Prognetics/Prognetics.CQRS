@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using Prognetics.CQRS.Simplified;
+using System.Threading.Tasks;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.Command
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Command
 {
-    public class SumCommandHandler : ICommandHandler<SumCommand>
+    public class SumCommandHandler : IAsyncCommandHandler<SumCommand>
     {
         public Task Handle(SumCommand command)
         {

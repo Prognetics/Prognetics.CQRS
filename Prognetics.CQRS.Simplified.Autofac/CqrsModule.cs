@@ -1,27 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
-using Prognetics.CQRS.Simplified.Tests.Shared;
+using Prognetics.CQRS.Tests.Simplified.Shared;
 using Module = Autofac.Module;
 
-namespace Prognetics.CQRS.Simplified.Tests.Shared.Modules
+namespace Prognetics.CQRS.Simplified.Autofac;
+
+internal class CqrsModule : Module
 {
-    public class CqrsModule : Module
+    private readonly IReadOnlyList<Assembly> _assemblies;
+
+    public CqrsModule(IReadOnlyList<Assembly> assemblies)
     {
-        private readonly string _assemblyName;
+        _assemblies = assemblies;
+    }
 
-        public CqrsModule(string assemblyName)
+    protected override void Load(ContainerBuilder builder)
+    {
+        base.Load(builder);
+
+        foreach (var assembly in _assemblies)
         {
-            _assemblyName = assemblyName;
-        }
-
-        protected override void Load(ContainerBuilder builder)
-        {
-            base.Load(builder);
-
-            var assembly = Assembly.Load(_assemblyName);
-
             void ScanAssemblyAndRegister(Type type)
             {
                 var objectsToRegister = assembly.GetTypes().Where(t =>
@@ -47,16 +45,18 @@ namespace Prognetics.CQRS.Simplified.Tests.Shared.Modules
             }
 
             ScanAssemblyAndRegister(typeof(ICommandHandler<>));
+            ScanAssemblyAndRegister(typeof(IAsyncCommandHandler<>));
             ScanAssemblyAndRegister(typeof(IQueryHandler<,>));
+            ScanAssemblyAndRegister(typeof(IAsyncQueryHandler<,>));
             ScanAssemblyAndRegister(typeof(IEventHandler<>));
-
-            builder.RegisterType<AutofacHandlerResolver>()
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
-
-            builder.RegisterType<Mediator>()
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
         }
+
+        builder.RegisterType<AutofacHandlerResolver>()
+            .AsImplementedInterfaces()
+            .InstancePerDependency();
+
+        builder.RegisterType<Mediator>()
+            .AsImplementedInterfaces()
+            .InstancePerDependency();
     }
 }

@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using Prognetics.CQRS.Simplified;
+using System.Threading.Tasks;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.QueryAsync
+namespace Prognetics.CQRS.Tests.Simplified.Integration.QueryAsync
 {
-    public class SumQueryHandlerAsync : IQueryHandler<SumQueryAsync, int>
+    public class SumQueryHandlerAsync : IAsyncQueryHandler<SumQueryAsync, int>
     {
         public Task<int> Handle(SumQueryAsync query)
         {

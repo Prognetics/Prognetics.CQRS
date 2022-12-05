@@ -1,35 +1,21 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Prognetics.CQRS.Simplified.Tests.Shared.Modules;
+using Prognetics.CQRS.Simplified;
 using Xunit;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.Command
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Command
 {
-    public class CommandTests
+    public class CommandTests : SimplifiedTestsBase
     {
-        private readonly IContainer _container;
-
-        public CommandTests()
-        {
-            _container = BuildContainer();
-        }
-
         [Fact]
         public async Task CommandShouldBeFoundAndExecuted()
         {
-            using (var scope = _container.BeginLifetimeScope())
+            using (var scope = Container.BeginLifetimeScope())
             {
                 var mediator = scope.Resolve<IMediator>();
 
-                await mediator.Send(new SumCommand(2));
+                await mediator.SendAsync(new SumCommand(2));
             }
-        }
-
-        private IContainer BuildContainer()
-        {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule(new CqrsModule("Prognetics.CQRS.Simplified.Tests"));
-            return containerBuilder.Build();
         }
     }
 }

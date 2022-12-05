@@ -1,4 +1,6 @@
-﻿namespace Prognetics.CQRS.Simplified.Tests.Integration.Command
+﻿using Prognetics.CQRS.Simplified;
+
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Command
 {
     public class SumCommand : ICommand
     {

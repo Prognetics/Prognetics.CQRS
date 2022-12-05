@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Prognetics.CQRS;
+namespace Prognetics.CQRS.Simplified;
 
 public interface IEventHandler<TEvent> where TEvent : IEvent
 {

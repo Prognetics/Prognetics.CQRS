@@ -1,27 +1,20 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Prognetics.CQRS.Simplified.Tests.Shared.Modules;
+using Prognetics.CQRS.Simplified;
 using Xunit;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.Query
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Query
 {
-    public class QueryTests
+    public class QueryTests : SimplifiedTestsBase
     {
-        private readonly IContainer _container;
-
-        public QueryTests()
-        {
-            _container = BuildContainer();
-        }
-
         [Fact]
         public void ExecuteQueryWithReflection()
         {
-            using (var scope = _container.BeginLifetimeScope())
+            using (var scope = Container.BeginLifetimeScope())
             {
                 var mediator = scope.Resolve<IMediator>();
 
-                var result = mediator.Fetch<SumQuery, int>(new SumQuery(2)).Result;
+                var result = mediator.Fetch<SumQuery, int>(new SumQuery(2));
 
                 result.Should().Be(5);
             }
@@ -30,22 +23,15 @@ namespace Prognetics.CQRS.Simplified.Tests.Integration.Query
         [Fact]
         public void ExecuteQueryWithoutReflection()
         {
-            using (var scope = _container.BeginLifetimeScope())
+            using (var scope = Container.BeginLifetimeScope())
             {
                 var mediator = scope.Resolve<IMediator>();
 
                 var query = new SumQuery(2);
-                var result = mediator.Fetch<SumQuery, int>(query).Result;
+                var result = mediator.Fetch<SumQuery, int>(query);
 
                 result.Should().Be(5);
             }
-        }
-
-        private IContainer BuildContainer()
-        {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule(new CqrsModule("Prognetics.CQRS.Simplified.Tests"));
-            return containerBuilder.Build();
         }
     }
 }

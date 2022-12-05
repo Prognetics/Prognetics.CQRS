@@ -1,15 +1,19 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Prognetics.CQRS.Simplified;
+using System;
 
-namespace Prognetics.CQRS.Simplified.Tests.Shared.GenericQuery
+namespace Prognetics.CQRS.Tests.Simplified.Shared.GenericQuery
 {
     public class SampleGenericQueryHandler<T> : IQueryHandler<SampleGenericQuery<T>, int>
     {
-        public Task<int> Handle(SampleGenericQuery<T> query)
+        public int Handle(SampleGenericQuery<T> query)
         {
-            var data = Convert.ToInt32(query.Data.ToString());
+            var data = 0;
+            for (int i = 0; i < 1e6; i++)
+            {
+                data = Convert.ToInt32(query.Data.ToString());
+            }
 
-            return Task.FromResult(data + 3);
+            return data + 3;
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Prognetics.CQRS.Simplified;
+using System.Threading.Tasks;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.Event
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Event
 {
     public class MultiplyNumberEventHandler : IEventHandler<NumberEvent>
     {

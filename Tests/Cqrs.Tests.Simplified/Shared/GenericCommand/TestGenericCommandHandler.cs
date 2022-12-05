@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Prognetics.CQRS.Simplified;
+using System;
 using System.Threading.Tasks;
 
-namespace Prognetics.CQRS.Simplified.Tests.Shared.GenericCommand
+namespace Prognetics.CQRS.Tests.Simplified.Shared.GenericCommand
 {
-    public class TestGenericCommandHandler<T> : ICommandHandler<TestGenericCommand<T>>
+    public class TestGenericCommandHandler<T> : IAsyncCommandHandler<TestGenericCommand<T>>
     {
         public Task Handle(TestGenericCommand<T> command)
         {

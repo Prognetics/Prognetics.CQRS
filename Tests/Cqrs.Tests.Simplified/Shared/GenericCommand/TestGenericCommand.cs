@@ -1,4 +1,6 @@
-﻿namespace Prognetics.CQRS.Simplified.Tests.Shared.GenericCommand
+﻿using Prognetics.CQRS.Simplified;
+
+namespace Prognetics.CQRS.Tests.Simplified.Shared.GenericCommand
 {
     public class TestGenericCommand<T> : ICommand
     {

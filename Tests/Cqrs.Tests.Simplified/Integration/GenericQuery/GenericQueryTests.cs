@@ -1,29 +1,22 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Prognetics.CQRS.Simplified.Tests.Shared.GenericQuery;
-using Prognetics.CQRS.Simplified.Tests.Shared.Modules;
+using Prognetics.CQRS.Simplified;
+using Prognetics.CQRS.Tests.Simplified.Shared.GenericQuery;
 using Xunit;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.GenericQuery
+namespace Prognetics.CQRS.Tests.Simplified.Integration.GenericQuery
 {
-    public class GenericQueryTests
+    public class GenericQueryTests : SimplifiedTestsBase
     {
-        private readonly IContainer _container;
-
-        public GenericQueryTests()
-        {
-            _container = BuildContainer();
-        }
-
         [Fact]
         public void ShouldExecuteQueryAndReturnData()
         {
-            using (var scope = _container.BeginLifetimeScope())
+            using (var scope = Container.BeginLifetimeScope())
             {
                 var mediator = scope.Resolve<IMediator>();
                 var query = new SampleGenericQuery<int>(2);
 
-                var result = mediator.Fetch<SampleGenericQuery<int>, int>(query).Result;
+                var result = mediator.Fetch<SampleGenericQuery<int>, int>(query);
 
                 result.Should().Be(5);
             }
@@ -32,26 +25,19 @@ namespace Prognetics.CQRS.Simplified.Tests.Integration.GenericQuery
         [Fact]
         public void ShouldExecuteTwoQueriesWithDifferentTypesPassed()
         {
-            using (var scope = _container.BeginLifetimeScope())
+            using (var scope = Container.BeginLifetimeScope())
             {
                 var mediator = scope.Resolve<IMediator>();
 
                 var queryOne = new SampleGenericQuery<int>(2);
-                var resultOne = mediator.Fetch<SampleGenericQuery<int>, int>(queryOne).Result;
+                var resultOne = mediator.Fetch<SampleGenericQuery<int>, int>(queryOne);
 
                 var queryTwo = new SampleGenericQuery<string>("7");
-                var resultTwo = mediator.Fetch<SampleGenericQuery<string>, int>(queryTwo).Result;
+                var resultTwo = mediator.Fetch<SampleGenericQuery<string>, int>(queryTwo);
 
                 resultOne.Should().Be(5);
                 resultTwo.Should().Be(10);
             }
-        }
-
-        private IContainer BuildContainer()
-        {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule(new CqrsModule("Prognetics.CQRS.Simplified.Tests"));
-            return containerBuilder.Build();
         }
     }
 }

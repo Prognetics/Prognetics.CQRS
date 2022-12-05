@@ -1,33 +1,19 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
-using Prognetics.CQRS.Simplified.Tests.Shared.Modules;
+using Prognetics.CQRS.Simplified;
 using Xunit;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.Event
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Event
 {
-    public class EventTests
+    public class EventTests : SimplifiedTestsBase
     {
-        private readonly IContainer _container;
-
-        public EventTests()
-        {
-            _container = BuildContainer();
-        }
-
         [Fact]
         public async Task FireEvent()
         {
-            using var scope = _container.BeginLifetimeScope();
+            using var scope = Container.BeginLifetimeScope();
             var mediator = scope.Resolve<IMediator>();
 
             await mediator.Publish(new NumberEvent(2));
-        }
-
-        private IContainer BuildContainer()
-        {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule(new CqrsModule("Prognetics.CQRS.Simplified.Tests"));
-            return containerBuilder.Build();
         }
     }
 }

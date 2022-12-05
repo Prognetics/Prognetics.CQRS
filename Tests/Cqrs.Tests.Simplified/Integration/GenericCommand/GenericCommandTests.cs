@@ -1,25 +1,18 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using Prognetics.CQRS.Simplified.Tests.Shared.GenericCommand;
-using Prognetics.CQRS.Simplified.Tests.Shared.Modules;
+using Prognetics.CQRS.Simplified;
+using Prognetics.CQRS.Tests.Simplified.Shared.GenericCommand;
 using Xunit;
 
-namespace Prognetics.CQRS.Simplified.Tests.Integration.GenericCommand
+namespace Prognetics.CQRS.Tests.Simplified.Integration.GenericCommand
 {
-    public class GenericCommandTests
+    public class GenericCommandTests : SimplifiedTestsBase
     {
-        private readonly IContainer _container;
-
-        public GenericCommandTests()
-        {
-            _container = BuildContainer();
-        }
-
         [Fact]
         public void Test()
         {
-            var isRegistered = _container.ComponentRegistry.Registrations.Any();
+            var isRegistered = Container.ComponentRegistry.Registrations.Any();
 
             Assert.True(isRegistered);
         }
@@ -27,31 +20,24 @@ namespace Prognetics.CQRS.Simplified.Tests.Integration.GenericCommand
         [Fact]
         public async Task GenericCommandShouldBeFoundAndExecuted()
         {
-            using var scope = _container.BeginLifetimeScope();
+            using var scope = Container.BeginLifetimeScope();
             var mediator = scope.Resolve<IMediator>();
 
             var command = new TestGenericCommand<SimpleData>(new SimpleData("Hello!"));
-            await mediator.Send(command);
+            await mediator.SendAsync(command);
         }
 
         [Fact]
         public async Task ShouldExecuteTwoGenericCommandHandlersWithDifferentTypesPassed()
         {
-            using var scope = _container.BeginLifetimeScope();
+            using var scope = Container.BeginLifetimeScope();
             var mediator = scope.Resolve<IMediator>();
 
             var command = new TestGenericCommand<SimpleData>(new SimpleData("Hello!"));
-            await mediator.Send(command);
+            await mediator.SendAsync(command);
 
             var otherCommand = new TestGenericCommand<SomeEntity>(new SomeEntity("SomeEntity Hello!"));
-            await mediator.Send(otherCommand);
-        }
-
-        private IContainer BuildContainer()
-        {
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule(new CqrsModule("Prognetics.CQRS.Simplified.Tests"));
-            return containerBuilder.Build();
+            await mediator.SendAsync(otherCommand);
         }
     }
 }

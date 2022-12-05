@@ -1,4 +1,4 @@
-﻿namespace Prognetics.CQRS;
+﻿namespace Prognetics.CQRS.Simplified;
 
 public interface IQuery<T>
 { }

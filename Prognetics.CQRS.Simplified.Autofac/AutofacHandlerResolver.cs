@@ -1,11 +1,7 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Prognetics.CQRS.Simplified;
 
-namespace Prognetics.CQRS.Simplified.Tests.Shared;
+namespace Prognetics.CQRS.Tests.Simplified.Shared;
 internal class AutofacHandlerResolver : IHandlerResolver
 {
     private readonly IComponentContext _context;
@@ -15,7 +11,7 @@ internal class AutofacHandlerResolver : IHandlerResolver
         _context = context;
     }
 
-    public T Resolve<T>()
+    public T Resolve<T>() where T: notnull
         => _context.Resolve<T>();
 
     public object Resolve(Type t)

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Prognetics.CQRS;
+namespace Prognetics.CQRS.Simplified;
 
 public class Mediator : IMediator
 {
@@ -12,16 +12,28 @@ public class Mediator : IMediator
         _resolver = resolver;
     }
 
-    public Task<TResult> Fetch<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>
+    public TResult Fetch<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>
     {
         var handler = _resolver.Resolve<IQueryHandler<TQuery, TResult>>();
         return handler.Handle(query);
     }
 
-    public Task Send<TCommand>(TCommand command) where TCommand : ICommand
+    public Task<TResult> FetchAsync<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>
+    {
+        var handler = _resolver.Resolve<IAsyncQueryHandler<TQuery, TResult>>();
+        return handler.Handle(query);
+    }
+
+    public Task SendAsync<TCommand>(TCommand command) where TCommand : ICommand
+    {
+        var handler = _resolver.Resolve<IAsyncCommandHandler<TCommand>>();
+        return handler.Handle(command);
+    }
+
+    public void Send<TCommand>(TCommand command) where TCommand : ICommand
     {
         var handler = _resolver.Resolve<ICommandHandler<TCommand>>();
-        return handler.Handle(command);
+        handler.Handle(command);
     }
 
     public async Task Publish<TEvent>(TEvent @event) where TEvent : IEvent

@@ -1,4 +1,6 @@
-﻿namespace Prognetics.CQRS.Simplified.Tests.Integration.QueryAsync
+﻿using Prognetics.CQRS.Simplified;
+
+namespace Prognetics.CQRS.Tests.Simplified.Integration.QueryAsync
 {
     public class SumQueryAsync : IQuery<int>
     {

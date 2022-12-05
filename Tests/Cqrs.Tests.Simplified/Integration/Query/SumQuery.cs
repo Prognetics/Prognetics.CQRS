@@ -1,4 +1,6 @@
-﻿namespace Prognetics.CQRS.Simplified.Tests.Integration.Query
+﻿using Prognetics.CQRS.Simplified;
+
+namespace Prognetics.CQRS.Tests.Simplified.Integration.Query
 {
     public class SumQuery : IQuery<int>
     {

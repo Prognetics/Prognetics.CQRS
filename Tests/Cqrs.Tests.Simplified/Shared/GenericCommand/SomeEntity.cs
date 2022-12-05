@@ -1,4 +1,4 @@
-﻿namespace Prognetics.CQRS.Simplified.Tests.Shared.GenericCommand
+﻿namespace Prognetics.CQRS.Tests.Simplified.Shared.GenericCommand
 {
     public class SomeEntity
     {
