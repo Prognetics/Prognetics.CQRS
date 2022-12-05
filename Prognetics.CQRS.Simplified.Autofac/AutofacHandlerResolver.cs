@@ -13,7 +13,4 @@ internal class AutofacHandlerResolver : IHandlerResolver
 
     public T Resolve<T>() where T: notnull
         => _context.Resolve<T>();
-
-    public object Resolve(Type t)
-        => _context.Resolve(t);
 }
