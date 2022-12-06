@@ -10,14 +10,6 @@ namespace Prognetics.CQRS.Tests.Simplified.Integration.GenericCommand
     public class GenericCommandTests : SimplifiedTestsBase
     {
         [Fact]
-        public void Test()
-        {
-            var isRegistered = Container.ComponentRegistry.Registrations.Any();
-
-            Assert.True(isRegistered);
-        }
-
-        [Fact]
         public async Task GenericCommandShouldBeFoundAndExecuted()
         {
             using var scope = Container.BeginLifetimeScope();
