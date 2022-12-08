@@ -33,13 +33,13 @@ internal class CqrsModule : Module
                     {
                         builder.RegisterGeneric(objectToRegister)
                             .AsImplementedInterfaces()
-                            .InstancePerDependency();
+                            .InstancePerLifetimeScope();
                     }
                     else
                     {
                         builder.RegisterType(objectToRegister)
                             .AsImplementedInterfaces()
-                            .InstancePerDependency();
+                            .InstancePerLifetimeScope();
                     }
                 }
             }
@@ -53,10 +53,10 @@ internal class CqrsModule : Module
 
         builder.RegisterType<AutofacHandlerResolver>()
             .AsImplementedInterfaces()
-            .InstancePerDependency();
+            .InstancePerLifetimeScope();
 
         builder.RegisterType<Mediator>()
             .AsImplementedInterfaces()
-            .InstancePerDependency();
+            .InstancePerLifetimeScope();
     }
 }
