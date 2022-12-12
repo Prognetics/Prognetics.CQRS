@@ -3,17 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Simplified", "Cqrs.Simplified\Prognetics.CQRS.Simplified.csproj", "{3BEBC5D7-A5EA-4838-ABB4-B3E0298E74C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS", "Cqrs\Prognetics.CQRS.csproj", "{3BEBC5D7-A5EA-4838-ABB4-B3E0298E74C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Tests.Simplified", "Tests\Cqrs.Tests.Simplified\Prognetics.CQRS.Tests.Simplified.csproj", "{2E6EC5CE-C142-466A-8C26-9D1E6231E148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Tests", "Tests\Prognetics.CQRS.Tests.csproj", "{2E6EC5CE-C142-466A-8C26-9D1E6231E148}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS", "Cqrs\Prognetics.CQRS.csproj", "{4B353389-7859-4878-9C14-109AD7CC47C2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Tests", "Tests\Cqrs.Tests\Prognetics.CQRS.Tests.csproj", "{4DFC438C-E72C-4ADF-85B2-AE545A4D7DC3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Benchmarks", "Prognetics.CQRS.Benchmarks\Prognetics.CQRS.Benchmarks.csproj", "{4148887C-1E75-4DCD-82D4-1528E65482B2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prognetics.CQRS.Simplified.Autofac", "Prognetics.CQRS.Simplified.Autofac\Prognetics.CQRS.Simplified.Autofac.csproj", "{C3189D38-894F-4E0B-BAE4-5117D4CAA597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Autofac", "Autofac\Prognetics.CQRS.Autofac.csproj", "{C3189D38-894F-4E0B-BAE4-5117D4CAA597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +23,6 @@ Global
 		{2E6EC5CE-C142-466A-8C26-9D1E6231E148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E6EC5CE-C142-466A-8C26-9D1E6231E148}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E6EC5CE-C142-466A-8C26-9D1E6231E148}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B353389-7859-4878-9C14-109AD7CC47C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B353389-7859-4878-9C14-109AD7CC47C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B353389-7859-4878-9C14-109AD7CC47C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B353389-7859-4878-9C14-109AD7CC47C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DFC438C-E72C-4ADF-85B2-AE545A4D7DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DFC438C-E72C-4ADF-85B2-AE545A4D7DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DFC438C-E72C-4ADF-85B2-AE545A4D7DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DFC438C-E72C-4ADF-85B2-AE545A4D7DC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4148887C-1E75-4DCD-82D4-1528E65482B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4148887C-1E75-4DCD-82D4-1528E65482B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4148887C-1E75-4DCD-82D4-1528E65482B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4148887C-1E75-4DCD-82D4-1528E65482B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C3189D38-894F-4E0B-BAE4-5117D4CAA597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3189D38-894F-4E0B-BAE4-5117D4CAA597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3189D38-894F-4E0B-BAE4-5117D4CAA597}.Release|Any CPU.ActiveCfg = Release|Any CPU
