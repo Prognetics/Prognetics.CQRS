@@ -2,12 +2,39 @@
 
   <PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
+		<Version>2.0.0</Version>
+		<Company>Prognetics sp. z o.o.</Company>
+		<Description>Prognetics CQRS comapny implementation package for Autofac</Description>
+		<Copyright>Prognetics sp. z o.o.</Copyright>
+		<PackageReleaseNotes />
+		<Authors>Prognetics sp. z o.o.</Authors>
+		<Title>Prognetics.CQRS.Autofac</Title>
+		<PackageProjectUrl>https://github.com/ChrisGawlinski/Prognetics.CQRS/</PackageProjectUrl>
+		<PackageIcon></PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/ChrisGawlinski/Prognetics.CQRS</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>cqrs; prognetics;autofac;</PackageTags>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+
+	<ItemGroup>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="Autofac" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
