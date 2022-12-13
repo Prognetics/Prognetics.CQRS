@@ -3,231 +3,146 @@
 
 We would like to share with the community our companies production verified CQRS + Mediator library.
 
-## How it works?
+## **How it works?**
 
 Throught the Mediator object you are able to issue different kinds of handlers to be called.
 
 First are commands:
 ```c#
-Task SendAsync<TCommand>(TCommand command) where TCommand : ICommandAsync;
+void Send<TCommand>(TCommand command) where TCommand : ICommand;
+
+Task SendAsync<TCommand>(TCommand command) where TCommand : ICommand;
 ```
-They allow you to run a logic that is supposed to modify the state of the application. They do not return value.
+They allow you to run a logic that is supposed to modify the state of the application. They do not return a value.
 
 Second are queries:
 ```c#
-TResult Fetch<TResult>(IQuery<TResult> query);
+TResult Fetch<TQuery, TResult>(TQuery query) where TQuery :  IQuery<TResult>;
 
-Task<TResult> FetchAsync<TResult>(IQueryAsync<TResult> query);
-
-TResult FetchFast<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>;
-
-Task<TResult> FetchFastAsync<TQuery, TResult>(TQuery query) where TQuery : IQueryAsync<TResult>;
+Task<TResult> FetchAsync<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>;
 ```
-They are used to return values, and should not perform any state modification operations. In the library we have 4 ways of running them. Synchronous way, asynchronous way, and "fast" way for both of the latter. The fast way forces the definition of generic parameters, but skips the reflection mechanism used in classic fetch, which is a costly operation.
+They are used to return values, and should not perform any state modification operations.
 
 
 Third are events:
 ```c#
-Task PublishAsync<TEvent>(TEvent @event) where TEvent : IEventAsync;
+Task Publish<TEvent>(TEvent @event) where TEvent : IEvent;
 ```
-While the queries and commands are allowed to have only single handler this is not the case for events. When a specific one is published the mediator will run all the handlers that are tied to it.
+While each query or command can only have a single synchronous and asynchronous handler, this is not the case for events. When an event is published, the mediator will run all the handlers that are registered to handle it.
 
-Fourth are generic commands:
-```c#
-Task SendGenericAsync<TCommand, TObject>(TCommand command) where TCommand : IGenericCommandAsync<TObject>;
-```
-They allow you to pass a command that has a generic parameter. This is not doable with regular commands.
-
-The last ones are the generic queries:
-```c#
-TResult FetchGeneric<TQuery, TResult, T>(TQuery query) where TQuery : IGenericQuery<TResult, T>;
-```
-Similarly to the commands, they allow you to pass generic arguments in the query object.
-
-## Usage
-
-This library has a heavy dependency on Autofac. It needs a specific module to be registered for each DLL that you create. 
-It scans the assembly looking for marking interfaces implementations.
+## **Integration**
+This library provides an easy-to-use extension for integration with Autofac. To register handler implementations, it requires a collection of assemblies to be scanned:
 
 ```c#
-public class CqrsModule : Module
-    {
-        private readonly string _assemblyName;
-
-        public CqrsModule(string assemblyName)
-        {
-            _assemblyName = assemblyName;
-        }
-
-        protected override void Load(ContainerBuilder builder)
-        {
-            base.Load(builder);
-
-            var assembly = Assembly.Load(_assemblyName);
-
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(x => x.IsAssignableTo<ICommandHandlerAsync>())
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
-
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(x => x.IsAssignableTo<IQueryHandler>())
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
-
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(x => x.IsAssignableTo<IQueryHandlerAsync>())
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
-
-            builder.RegisterAssemblyTypes(assembly)
-                .Where(x => x.IsAssignableTo<IEventHandlerAsync>())
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
-
-            ScanAssemblyAndRegister(assembly, typeof(IGenericCommandHandlerAsync<>), builder);
-
-            ScanAssemblyAndRegister(assembly, typeof(IGenericQueryHandler<,,>), builder);
-
-            builder.Register<Func<Type, ICommandHandlerAsync>>(c =>
-            {
-                var ctx = c.Resolve<IComponentContext>();
-
-                return t =>
-                {
-                    var handlerType = typeof(ICommandHandlerAsync<>).MakeGenericType(t);
-                    return (ICommandHandlerAsync)ctx.Resolve(handlerType);
-                };
-            });
-
-            builder.Register<Func<Type, object>>(c =>
-            {
-                var ctx = c.Resolve<IComponentContext>();
-
-                return t =>
-                {
-                    var typeDeterminingInterface = t.GetInterfaces().Single();
-
-                    if (typeDeterminingInterface.Name == typeof(IGenericCommandAsync<>).Name)
-                    {
-                        var handlerType = typeof(IGenericCommandHandlerAsync<>).MakeGenericType(t);
-                        return ctx.Resolve(handlerType);
-                    }
-                    else if (typeDeterminingInterface.Name == typeof(IGenericQuery<,>).Name)
-                    {
-
-                        var handlerType = typeof(IGenericQueryHandler<,,>).MakeGenericType(t, typeDeterminingInterface.GenericTypeArguments[0], typeDeterminingInterface.GenericTypeArguments[1]);
-                        return ctx.Resolve(handlerType);
-                    }
-
-                    throw new ArgumentException($"Wrong type passed to generic command/query handler resolver {t}");
-                };
-            });
-
-            builder.Register<Func<Type, IQueryHandler>>(c =>
-            {
-                var ctx = c.Resolve<IComponentContext>();
-                var queryType = typeof(IQuery<>);
-
-                return t =>
-                {
-                    var handlerType = typeof(IQueryHandler<,>).MakeGenericType(t, t.GetInterfaces().Single(x => x.Name == queryType.Name).GenericTypeArguments[0]);
-                    return (IQueryHandler)ctx.Resolve(handlerType);
-                };
-            });
-
-            builder.Register<Func<Type, IQueryHandlerAsync>>(c =>
-            {
-                var ctx = c.Resolve<IComponentContext>();
-                var queryType = typeof(IQueryAsync<>);
-
-                return t =>
-                {
-                    var handlerType = typeof(IQueryHandlerAsync<,>).MakeGenericType(t, t.GetInterfaces().Single(x => x.Name == queryType.Name).GenericTypeArguments[0]);
-                    return (IQueryHandlerAsync)ctx.Resolve(handlerType);
-                };
-            });
-
-            builder.Register<Func<Type, IEnumerable<IEventHandlerAsync>>>(c =>
-            {
-                var ctx = c.Resolve<IComponentContext>();
-                return t =>
-                {
-                    var handlerType = typeof(IEventHandlerAsync<>).MakeGenericType(t);
-                    var handlersCollectionType = typeof(IEnumerable<>).MakeGenericType(handlerType);
-                    return (IEnumerable<IEventHandlerAsync>)ctx.Resolve(handlersCollectionType);
-                };
-            });
-
-            builder.RegisterType<Mediator.Mediator>()
-                .AsImplementedInterfaces()
-                .InstancePerDependency();
-        }
-
-        private void ScanAssemblyAndRegister(Assembly assembly, Type type, ContainerBuilder builder)
-        {
-            var objectsToRegister = assembly.GetTypes().Where(t =>
-            {
-                return t.GetTypeInfo()
-                    .ImplementedInterfaces.Any(
-                        i => i.IsGenericType && i.GetGenericTypeDefinition() == type);
-            });
-
-            foreach (var objectToRegister in objectsToRegister)
-            {
-                builder.RegisterGeneric(objectToRegister)
-                    .AsImplementedInterfaces()
-                    .InstancePerDependency();
-            }
-        }
-    }
+builder.RegisterProgenticsCQRSModule(Assembly.GetExecutingAssembly());
 ```
 
-The above is the most complex part of this solution, as it is responsible for how the objects are created.
+The library can also be integreted with Microsoft Dependency Injection. 
 
-To present the simplicity of the solution we will showcase commands. Let's say we would like to create a sum command tht will be able to add a number defined by the user to the number 2.
+```c#
+builder.AddProgneticsCQRS(Assembly.GetExecutingAssembly());
+```
 
-We will need to create two files for this. A SumCommand:
-```C#
-using Prognetics.CQRS.Markers;
+**However, unlike Autofac, it does not support the use of generic handlers, so these will be skipped if they are defined.**
 
-namespace Prognetics.CQRS.Tests.Integration.Command
+
+The library can be used without dependency injection. To define the way of resolving handlers in your application, implement the `Prognetics.CQRS.IHandlerResolver` interface and pass the implementation to `Prognetics.CQRS.Mediator`. The mediator will then be ready to work.
+
+## **Defining Queries, Commands and Events**
+
+### **Query**
+The query must implement the `IQuery<TResult>` interface, where TResult is the type of the expected result:
+
+```c#
+public record MyQuery(string Data) : IQuery<string>
+```
+
+ You can implement the query handler in two ways:
+
+ - **Synchronously** by implementing the `IQueryHandler<TQuery, TResult>` interface
+
+```c#
+public class MyQueryHandler : IQueryHandler<MyQuery, string>
 {
-    public class SumCommand : ICommandAsync
+    public string Handle(MyQuery query)
     {
-        public SumCommand(int number)
-        {
-            Number = number;
-        }
-
-        public int Number { get; }
+        // Process the query
     }
 }
 ```
-And a SumCommandHandler:
 
-```C#
-using System.Threading.Tasks;
-using Prognetics.CQRS.Handlers;
+ - **Asynchronously** by implementing the `IAsyncQueryHandler<TQuery, TResult>` interface
 
-namespace Prognetics.CQRS.Tests.Integration.Command
+```c#
+public class MyQueryHandler : IAsyncQueryHandler<MyQuery, string>
 {
-    public class SumCommandHandler : CommandHandlerAsync<SumCommand>
+    public Task<string> Handle(MyQuery query)
     {
-        public override async Task HandleAsync(SumCommand command)
-        {
-            var result = 2 + command.Number;
-        }
+        // Process the query
+        // await sth
     }
 }
 ```
-That's it! Now in order to launch the handler you need to make a following call through the mediator:
-```C#
-await mediator.SendAsync(new SumCommand(2));
+
+where `TQuery` is the type of your query and `TResult` is the type of the result specified in the `IQuery<TResult>` interface.
+
+
+### **Command**
+The command must implement the `ICommand` interface:
+
+```c#
+public record MyCommand(string Data) : ICommand
 ```
 
+Command handler can be:
+ - **Synchronous** by implementing the `ICommandHandler<TCommand>` interface
 
-You can find all the examples of different operations in the Tests project.
+```c#
+public class SumCommandHandler : ICommandHandler<MyCommand>
+{
+    public void Handle(MyCommand command)
+    {
+        // Process the command
+    }
+}
+```
+
+ - **Asynchronously** by implementing the `IAsyncCommandHandler<TCommand>` interface
+
+```c#
+public class SumCommandHandler : IAsyncCommandHandler<MyCommand>
+{
+    public async Task Handle(MyCommand command)
+    {
+        // Process the command
+        // await sth
+    }
+}
+```
+where `TCommand` is the type of your command
+
+**NOTE: You can define both an asynchronous and synchronous handler for the same query or command**
+
+### **Event**
+The event must implement the `IEvent` interface.
+
+```c#
+public record MyEvent(string Data) : IEvent
+```
+
+Event handler can must be defined by implementing the `IEventHandler<TEvent>` interface:
+```c#
+public class MyEventHandler : IEventHandler<MyEvent>
+{
+    public async Task Handle(MyEvent @event)
+    {
+        // Process the event
+        // await sth
+    }
+}
+```
+ where `TEvent` is the type of your event.
+
 
 
 ## Running Tests
