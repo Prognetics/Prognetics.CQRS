@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
             ScanAssemblyAndRegister(typeof(IEventHandler<>), services, assembly);
         }
 
-        services.AddScoped<IHandlerResolver, MicrosoftDiHandlerResolver>();
+        services.AddScoped<IHandlerResolver, MicrosoftDIHandlerResolver>();
         services.AddScoped<IMediator, Mediator>();
 
         return services;

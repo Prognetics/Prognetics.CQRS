@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Prognetics.CQRS.MicrosoftDI;
-public class MicrosoftDiHandlerResolver : IHandlerResolver
+public class MicrosoftDIHandlerResolver : IHandlerResolver
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public MicrosoftDiHandlerResolver(IServiceProvider serviceProvider)
+    public MicrosoftDIHandlerResolver(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
