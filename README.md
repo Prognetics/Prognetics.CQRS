@@ -31,22 +31,22 @@ Task Publish<TEvent>(TEvent @event) where TEvent : IEvent;
 While each query or command can only have a single synchronous and asynchronous handler, this is not the case for events. When an event is published, the mediator will run all the handlers that are registered to handle it.
 
 ## **Integration**
-This library provides an easy-to-use extension for integration with Autofac. To register handler implementations, it requires a collection of assemblies to be scanned:
+This library `Prognetics.CQRS.Autofac` provides an easy-to-use extension for integration with Autofac. To register handler implementations, it requires a collection of assemblies to be scanned:
 
 ```c#
 builder.RegisterProgenticsCQRSModule(Assembly.GetExecutingAssembly());
 ```
 
-The library can also be integreted with Microsoft Dependency Injection. 
+The framework can also be integreted with Microsoft Dependency Injection. Install `Prognetics.CQRS.MicrosoftDI` and add to ths service collection:
 
 ```c#
-builder.AddProgneticsCQRS(Assembly.GetExecutingAssembly());
+services.AddProgneticsCQRS(Assembly.GetExecutingAssembly());
 ```
 
 **However, unlike Autofac, it does not support the use of generic handlers, so these will be skipped if they are defined.**
 
 
-The library can be used without dependency injection. To define the way of resolving handlers in your application, implement the `Prognetics.CQRS.IHandlerResolver` interface and pass the implementation to `Prognetics.CQRS.Mediator`. The mediator will then be ready to work.
+The library can be used without other/without dependency injection. Install Prognetics.CQRS package and define the way of resolving handlers in your application by implementing the `Prognetics.CQRS.IHandlerResolver` interface and pass the implementation to `Prognetics.CQRS.Mediator`. The mediator will then be ready to work.
 
 ## **Defining Queries, Commands and Events**
 
