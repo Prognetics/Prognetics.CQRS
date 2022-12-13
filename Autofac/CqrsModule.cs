@@ -19,35 +19,11 @@ internal class CqrsModule : Module
 
         foreach (var assembly in _assemblies)
         {
-            void ScanAssemblyAndRegister(Type type)
-            {
-                var objectsToRegister = assembly.GetTypes().Where(t =>
-                    t.GetTypeInfo()
-                        .ImplementedInterfaces.Any(
-                            i => i.IsGenericType && i.GetGenericTypeDefinition() == type));
-
-                foreach (var objectToRegister in objectsToRegister)
-                {
-                    if (objectToRegister.IsGenericType)
-                    {
-                        builder.RegisterGeneric(objectToRegister)
-                            .AsImplementedInterfaces()
-                            .InstancePerLifetimeScope();
-                    }
-                    else
-                    {
-                        builder.RegisterType(objectToRegister)
-                            .AsImplementedInterfaces()
-                            .InstancePerLifetimeScope();
-                    }
-                }
-            }
-
-            ScanAssemblyAndRegister(typeof(ICommandHandler<>));
-            ScanAssemblyAndRegister(typeof(IAsyncCommandHandler<>));
-            ScanAssemblyAndRegister(typeof(IQueryHandler<,>));
-            ScanAssemblyAndRegister(typeof(IAsyncQueryHandler<,>));
-            ScanAssemblyAndRegister(typeof(IEventHandler<>));
+            ScanAssemblyAndRegister(typeof(ICommandHandler<>), builder, assembly);
+            ScanAssemblyAndRegister(typeof(IAsyncCommandHandler<>), builder, assembly);
+            ScanAssemblyAndRegister(typeof(IQueryHandler<,>), builder, assembly);
+            ScanAssemblyAndRegister(typeof(IAsyncQueryHandler<,>), builder, assembly);
+            ScanAssemblyAndRegister(typeof(IEventHandler<>), builder, assembly);
         }
 
         builder.RegisterType<AutofacHandlerResolver>()
@@ -57,5 +33,32 @@ internal class CqrsModule : Module
         builder.RegisterType<Mediator>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
+    }
+
+    private static void ScanAssemblyAndRegister(
+        Type type,
+        ContainerBuilder builder,
+        Assembly assembly)
+    {
+        var objectsToRegister = assembly.GetTypes().Where(t =>
+            t.GetTypeInfo()
+                .ImplementedInterfaces.Any(
+                    i => i.IsGenericType && i.GetGenericTypeDefinition() == type));
+
+        foreach (var objectToRegister in objectsToRegister)
+        {
+            if (objectToRegister.IsGenericType)
+            {
+                builder.RegisterGeneric(objectToRegister)
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope();
+            }
+            else
+            {
+                builder.RegisterType(objectToRegister)
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope();
+            }
+        }
     }
 }
