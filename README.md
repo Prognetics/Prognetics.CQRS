@@ -76,7 +76,7 @@ public class MyQueryHandler : IQueryHandler<MyQuery, string>
 ```c#
 public class MyQueryHandler : IAsyncQueryHandler<MyQuery, string>
 {
-    public Task<string> Handle(MyQuery query)
+    public async Task<string> Handle(MyQuery query)
     {
         // Process the query
         // await sth
