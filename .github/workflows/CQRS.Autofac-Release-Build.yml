@@ -20,6 +20,6 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
       - name: Pack CQRS
-        run: dotnet pack ${GITHUB_WORKSPACE}/Prognetics.CQRS/Autofac/Prognetics.CQRS.Autofac.csproj -p:PackageVersion=${{ github.ref_name }} -c Release
+        run: dotnet pack ${GITHUB_WORKSPACE}/Autofac/Prognetics.CQRS.Autofac.csproj -p:PackageVersion=${{ github.ref_name }} -c Release
       - name: Publish to nuget.org
-        run: dotnet nuget push ${GITHUB_WORKSPACE}/Prognetics.CQRS/Autofac/bin/Release/*.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ${GITHUB_WORKSPACE}/Autofac/bin/Release/*.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
