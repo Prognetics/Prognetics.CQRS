@@ -9,7 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Tests", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.Autofac", "Autofac\Prognetics.CQRS.Autofac.csproj", "{C3189D38-894F-4E0B-BAE4-5117D4CAA597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prognetics.CQRS.MicrosoftDI", "MicrosoftDI\Prognetics.CQRS.MicrosoftDI.csproj", "{88716AAC-31DF-47DB-B45F-7FDE45F5C81B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prognetics.CQRS.MicrosoftDI", "MicrosoftDI\Prognetics.CQRS.MicrosoftDI.csproj", "{88716AAC-31DF-47DB-B45F-7FDE45F5C81B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builds", "Builds", "{5ABD151A-D070-4F1D-9620-921D3606EEE1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\CQRS-Release-Build.yml = .github\workflows\CQRS-Release-Build.yml
+		.github\workflows\CQRS.Autofac-Release-Build.yml = .github\workflows\CQRS.Autofac-Release-Build.yml
+		.github\workflows\CQRS.MicrosoftDI-Release-Build.yml = .github\workflows\CQRS.MicrosoftDI-Release-Build.yml
+		.github\workflows\PR-Build.yml = .github\workflows\PR-Build.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
