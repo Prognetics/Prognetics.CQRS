@@ -1,4 +1,4 @@
-name: CQRS Release Build
+name: CQRS.Autofac Release Build
 
 on:
   release:
