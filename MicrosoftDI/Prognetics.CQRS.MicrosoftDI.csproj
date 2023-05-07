@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Version>2.0.0</Version>
+		<TargetFramework>net7.0</TargetFramework>
+		<Version>3.0.0</Version>
 		<Company>Prognetics sp. z o.o.</Company>
-		<Description>Prognetics CQRS comapny implementation package</Description>
+		<Description>Prognetics CQRS.MicrosoftDI extension package.</Description>
 		<Copyright>Prognetics sp. z o.o.</Copyright>
 		<PackageReleaseNotes />
 		<Authors>Prognetics sp. z o.o.</Authors>
 		<Title>Prognetics.CQRS.MicrosoftDI</Title>
-		<PackageProjectUrl>https://github.com/ChrisGawlinski/Prognetics.CQRS</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/Prognetics/Prognetics.CQRS</PackageProjectUrl>
 		<PackageIcon></PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/ChrisGawlinski/Prognetics.CQRS</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Prognetics/Prognetics.CQRS</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>cqrs; prognetics; microsoft; dependency; injection</PackageTags>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>

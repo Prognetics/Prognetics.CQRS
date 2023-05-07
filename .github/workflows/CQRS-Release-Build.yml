@@ -1,0 +1,25 @@
+name: CQRS Release Build
+
+on:
+  release:
+      types: [published]
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Pack CQRS
+        run: dotnet pack ${GITHUB_WORKSPACE}/Prognetics.CQRS/Cqrs/Prognetics.CQRS.csproj -p:PackageVersion=${{ github.ref_name }} -c Release
+      - name: Publish to nuget.org
+        run: dotnet nuget push ${GITHUB_WORKSPACE}/Prognetics.CQRS/Cqrs/bin/Release/*.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
