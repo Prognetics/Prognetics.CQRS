@@ -1,7 +1,7 @@
 
 # Welcome to Prognetics CQRS!
 
-We would like to share with the community our companies production verified CQRS + Mediator library.
+We would like to share with the community our companies production verified mediator pattern based CQRS library.
 
 ## **How it works?**
 
@@ -31,7 +31,7 @@ Task Publish<TEvent>(TEvent @event) where TEvent : IEvent;
 While each query or command can only have a single synchronous and asynchronous handler, this is not the case for events. When an event is published, the mediator will run all the handlers that are registered to handle it.
 
 ## **Setup**
-Start with downloading NuGet package `Prognetics.CQRS` that contains all the required abstractions and mediator implementation. The second step is to make a decision on the DI container. We prepared two integrations for your comfort.
+We prepared two integrations for your comfort. Depending on which DI continer you would like to use, please pick one of them or download base 'Prognetics.CQRS' package and implement your own integration!
 
 The library `Prognetics.CQRS.Autofac` provides an easy-to-use extension for integration with Autofac. To register handler implementations, it requires a collection of assemblies to be scanned:
 
